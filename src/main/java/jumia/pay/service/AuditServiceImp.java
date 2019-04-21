@@ -2,8 +2,7 @@ package jumia.pay.service;
 
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
-import jumia.pay.enums.Actions;
-import jumia.pay.enums.UserType;
+import jumia.pay.dto.AuditRequest;
 import jumia.pay.interfaces.AuditService;
 import jumia.pay.model.Audit;
 import jumia.pay.repository.AuditRepository;
@@ -16,9 +15,11 @@ public class AuditServiceImp implements AuditService {
     @Autowired
     private AuditRepository auditRepository;
 
-    @Override
-    public void logActivity(Actions action, String userEmail,String json,UserType userType) {
+
+    public void logActivity(AuditRequest request) {
         Audit audit = null;
+        if (request ==null) return;
+        String json = request.getJson();
         DBObject dbObject= null;
         if (json == null) return;
 
@@ -26,18 +27,16 @@ public class AuditServiceImp implements AuditService {
 
         if (dbObject == null) return;
 
-        audit = buildAuditObj(action,dbObject,userEmail,userType);
+        audit = buildAuditObj(request,dbObject);
 
         if (audit != null)
             save(audit);
     }
 
-    @Override
-    public Page<Audit> getUserLog(String email) {
+    public Page<Audit> getUserLog(String auditorEmail) {
         return null;
     }
 
-    @Override
     public Page<Audit> getAllLog() {
         return null;
     }
@@ -51,12 +50,12 @@ public class AuditServiceImp implements AuditService {
             .parse(json);
         return dbObject;
     }
-    private Audit buildAuditObj(Actions actions, DBObject dbObject, String userEmail, UserType userType){
+    private Audit buildAuditObj(AuditRequest request, DBObject dbObject){
         Audit audit = new Audit();
-        audit.setAction(actions);
+        audit.setAction(request.getAction());
         audit.setTargetObject(dbObject);
-        audit.setUserEmail(userEmail);
-        audit.setUserType(userType);
+        audit.setUserEmail(request.getAuditorEmail());
+        audit.setUserType(request.getUserType());
         return audit;
     }
 }

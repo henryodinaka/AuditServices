@@ -1,6 +1,7 @@
 package jumia.pay.service;
  
 import jumia.pay.enums.UserType;
+import jumia.pay.interfaces.UserService;
 import jumia.pay.model.User;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService{
 
     static Map<Integer,User> users = new HashMap<>();
 

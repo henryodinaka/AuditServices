@@ -5,20 +5,23 @@ import jumia.pay.interfaces.AuditService;
 import jumia.pay.interfaces.Auditable;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 
 @Aspect
+@Component
 public class AuditingAspect {
  @Autowired
  private AuditService auditService;
 
-@After("@annotation(auditable)")
+@AfterReturning(value = "@annotation(auditable)",returning = "object")
  @Transactional
- public void logAuditActivity(JoinPoint jp, Auditable auditable) {
+ public void logAuditActivity(JoinPoint joinPoint, Auditable auditable,Object object) {
+ Object[] args = joinPoint.getArgs();
  String targetAuditingUser;
  Actions actionType = auditable.actionType();
  

@@ -6,10 +6,12 @@ public enum Actions {
 
     //Customer actions
 
-    SELECT_PRODUCT,
+    VIEW_PRODUCT,
     ADD_PRODUCT_TO_CART,
     REMOVE_PRODUCT_FROM_CART,
     CHECK_OUT,
+    ORDER,
+    MAKE_PAYMENT,
     CANCEL_ORDER,
 
     //Operations
