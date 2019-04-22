@@ -26,11 +26,16 @@ public class AuditingAspect {
      @Autowired
      private AuditServiceImp auditServiceImp;
 
+    /**
+     * This advice is ran after a method annotated with @auditable has returned
+     * @param joinPoint
+     * @param auditable
+     * @param object
+     */
      @AfterReturning(value = "@annotation(auditable)",returning = "object")
      @Transactional
      public void logAuditActivity(JoinPoint joinPoint, Auditable auditable,Object object)
      {
-         Object[] args = joinPoint.getArgs();
          String targetObject = null;
          String auditorUsername;
          RoleName auditorRoleName;

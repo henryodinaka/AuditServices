@@ -2,10 +2,13 @@ package jumia.pay.interfaces;
 
 import jumia.pay.model.Product;
 
+import java.util.List;
+
 public interface ProductService {
 
-    public Product updateProduct(Product value, String userEmail, Integer key);
-    public Product addProduct(Product product,String userEmail,Integer key);
-    public Product RemoveProduct(Long key,String userEmail);
-    public Product viewProduct(Long key,String userEmail);
+    Product updateProduct(Product value, Long key);
+    Product addProduct(Product product);
+    Product removeProduct(Long key);
+    Product viewProduct(Long key);
+    List<Product> getAllProducts();
 }

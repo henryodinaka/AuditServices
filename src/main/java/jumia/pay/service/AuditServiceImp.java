@@ -1,21 +1,34 @@
 package jumia.pay.service;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
+import jumia.pay.dto.ActivityRequest;
 import jumia.pay.dto.AuditRequest;
 import jumia.pay.interfaces.AuditService;
 import jumia.pay.model.Audit;
 import jumia.pay.repository.AuditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class AuditServiceImp implements AuditService {
     @Autowired
     private AuditRepository auditRepository;
 
-
+    /**
+     * Persists user activities to DB
+     * @param request
+     */
     public void logActivity(AuditRequest request) {
         Audit audit = null;
         if (request ==null) return;
@@ -33,11 +46,15 @@ public class AuditServiceImp implements AuditService {
             save(audit);
     }
 
-    public Page<Audit> getUserLog(String auditorEmail) {
+    public Page<Audit> getUserLog(ActivityRequest request, Pageable pageable) {
+        if (request == null)return null;
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+        auditRepository.findActivitieBetween(request.getStartDate(),request.getEndDate(),pageable);
         return null;
     }
 
-    public Page<Audit> getAllLog() {
+    public Page<Audit> getAllLog(ActivityRequest request,Pageable pageable) {
+        auditRepository.findActivitieBetween(request.getStartDate(),request.getEndDate(),pageable);
         return null;
     }
 
@@ -45,11 +62,24 @@ public class AuditServiceImp implements AuditService {
     {
         auditRepository.save(audit);
     }
+
+    /**
+     * Covert json to DBObject
+     * @param json
+     * @return
+     */
     protected DBObject jsonToDBObject(String json){
         DBObject dbObject = (DBObject) JSON
             .parse(json);
         return dbObject;
     }
+
+    /**
+     * Generate audit object to be saved
+     * @param request
+     * @param dbObject
+     * @return
+     */
     private Audit buildAuditObj(AuditRequest request, DBObject dbObject){
         Audit audit = new Audit();
         audit.setAction(request.getAction());
@@ -57,5 +87,17 @@ public class AuditServiceImp implements AuditService {
         audit.setUserEmail(request.getAuditorEmail());
         audit.setRoleName(request.getRoleName());
         return audit;
+    }
+    public void trying(String username, Date startDate, Date endDate)
+    {
+//        DBCollection coll = db.getCollection("AuditService");
+        BasicDBObject query = new BasicDBObject("username",username);
+        query.append("createdDate",new BasicDBObject("$lt",startDate));
+        query.append("createdDate",new BasicDBObject("$gt",startDate));
+
+//        DBCursor cursor = coll.find(query);
+
+
+
     }
 }

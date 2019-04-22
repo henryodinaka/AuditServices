@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
         return productList;
     }
     @Auditable(actionType = Actions.UPDATE_PRODUCT)
-    public Product updateProduct(Product value,String auditorEmail,Integer key)
+    public Product updateProduct(Product value,Long key)
     {
         if (!products.containsKey(key))return null;
         for( Map.Entry<Long,Product> product : products.entrySet() ) {
@@ -37,14 +37,14 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Auditable(actionType = Actions.ADD_PRODUCT_TO_STORE)
-    public Product addProduct(Product product,String auditorEmail,Integer key)
+    public Product addProduct(Product product)
     {
         if (product !=null)return null;
         products.put(product.getId(),product);
         return product;
     }
     @Auditable(actionType = Actions.REMOVE_PRODUCT_FROM_STORE)
-    public Product RemoveProduct(Long key,String auditorEmail)
+    public Product removeProduct(Long key)
     {
         Product removedProduct =null;
         if (!products.containsKey(key))return null;
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService{
         return removedProduct;
     }
     @Auditable(actionType = Actions.VIEW_PRODUCT)
-    public Product viewProduct(Long key,String auditorEmail)
+    public Product viewProduct(Long key)
     {
         if (!products.containsKey(key))return null;
         for( Map.Entry<Long,Product> product : products.entrySet() ) {

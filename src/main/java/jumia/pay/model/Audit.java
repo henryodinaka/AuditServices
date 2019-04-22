@@ -1,8 +1,10 @@
 package jumia.pay.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mongodb.DBObject;
 import jumia.pay.enums.Actions;
 import jumia.pay.enums.RoleName;
+import jumia.pay.util.JsonDateSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,6 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
+
+import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
@@ -28,10 +32,10 @@ public class Audit {
     private DBObject targetObject;
 
     @CreatedDate
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Temporal(TIMESTAMP)
-    private String createdDate;
+    private Date createdDate;
 
-    @CreatedBy
     private String userEmail;
 
     @Enumerated (EnumType.STRING)
