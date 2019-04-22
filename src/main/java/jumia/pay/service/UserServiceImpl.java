@@ -1,7 +1,8 @@
 package jumia.pay.service;
- 
-import jumia.pay.enums.UserType;
+
+import jumia.pay.enums.RoleName;
 import jumia.pay.interfaces.UserService;
+import jumia.pay.model.Role;
 import jumia.pay.model.User;
 import org.springframework.stereotype.Service;
 
@@ -11,25 +12,33 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService{
 
-    static Map<Integer,User> users = new HashMap<>();
+    static Map<String ,User> users = new HashMap<>();
 
     public User getUserById(Integer id){
         return users.get(id);
     }
 
-    static {
-        User jane = new User(1L,"jane@jumiapay.com","password123","Jane", UserType.CUSTOMERSERVICE);
-        User peter =  new User(2L,"peter@jumiapay.com","password123","Pater", UserType.CUSTOMERSERVICE);
-        User josh =  new User(3L,"josh@jumiapay.com","password123","Josh", UserType.CUSTOMER);
-        User ken =  new User(4L,"ken@jumiapay.com","password123","Ken", UserType.CUSTOMER);
-        User silva =  new User(5L,"silva@jumiapay.com","password123","Silva", UserType.OPERATION);
-        User tim =  new User(6L,"tim@jumiapay.com","password123","Tim", UserType.OPERATION);
+    public User findByUsername(String username) {
+        for (Map.Entry<String,User> user: users.entrySet())
+        {
+            if (user.getValue().getEmail().equalsIgnoreCase(username))return user.getValue();
+        }
+        return null;
+    }
 
-        users.put(jane.getId().intValue(),jane);
-        users.put(peter.getId().intValue(),peter);
-        users.put(josh.getId().intValue(),josh);
-        users.put(ken.getId().intValue(),ken);
-        users.put(silva.getId().intValue(),silva);
-        users.put(tim.getId().intValue(),tim);
+    static {
+        User jane = new User(1L,"jane@jumiapay.com","password123","Jane", new Role(RoleName.CUSTOMERSERVICE));
+        User peter =  new User(2L,"peter@jumiapay.com","password123","Pater", new Role(RoleName.CUSTOMERSERVICE));
+        User josh =  new User(3L,"josh@jumiapay.com","password123","Josh", new Role( RoleName.CUSTOMER));
+        User ken =  new User(4L,"ken@jumiapay.com","password123","Ken", new Role(RoleName.CUSTOMER));
+        User silva =  new User(5L,"silva@jumiapay.com","password123","Silva",new Role( RoleName.OPERATION));
+        User tim =  new User(6L,"tim@jumiapay.com","password123","Tim", new Role(RoleName.OPERATION));
+
+        users.put(jane.getEmail(),jane);
+        users.put(peter.getEmail(),peter);
+        users.put(josh.getEmail(),josh);
+        users.put(ken.getEmail(),ken);
+        users.put(silva.getEmail(),silva);
+        users.put(tim.getEmail(),tim);
     }
 }

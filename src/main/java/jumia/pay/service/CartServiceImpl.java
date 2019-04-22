@@ -16,28 +16,28 @@ import java.util.Map;
 public class CartServiceImpl implements CartService {
      Map<Long, Product> cart = new HashMap<>();
 
-    @Transactional
      @Auditable(actionType = Actions.ADD_PRODUCT_TO_CART)
-     public void addToCart(Product product,String userEmail)
+     public Product addToCart(Product product,String auditorEmail)
      {
          cart.put(product.getId(),product);
+         return product;
      }
 
-     @Transactional
      @Auditable(actionType = Actions.REMOVE_PRODUCT_FROM_CART)
-     public void removeFromCart(Product product,String userEmail)
+     public Product removeFromCart(Product product,String auditorEmail)
      {
-         if(!cart.containsKey(product.getId()))return;
+         if(!cart.containsKey(product.getId()))return null;
          for (Map.Entry<Long,Product> p : cart.entrySet()){
              if (p.getKey().equals(product.getId())){
                  cart.remove(p);
                  break;
              }
          }
+         return product;
      }
 
      @Auditable(actionType = Actions.CHECK_OUT)
-     public List<Product> checkOut(String userEmail)
+     public List<Product> checkOut(String auditorEmail)
      {
          List<Product> products = new ArrayList<>();
          if(cart.isEmpty())return null;

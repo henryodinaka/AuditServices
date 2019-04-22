@@ -2,7 +2,7 @@ package jumia.pay.model;
 
 import com.mongodb.DBObject;
 import jumia.pay.enums.Actions;
-import jumia.pay.enums.UserType;
+import jumia.pay.enums.RoleName;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedBy;
@@ -35,5 +35,5 @@ public class Audit {
     private String userEmail;
 
     @Enumerated (EnumType.STRING)
-    private UserType userType;
+    private RoleName roleName;
 }

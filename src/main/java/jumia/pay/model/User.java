@@ -1,16 +1,18 @@
 package jumia.pay.model;
 
-import jumia.pay.enums.UserType;
 import jumia.pay.interfaces.AuditingTargetUserEmail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,6 @@ public class User {
     private String password;
     private String name;
 
-    @Enumerated
-    private UserType userType;
+    @ManyToOne
+    private Role role ;
 }

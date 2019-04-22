@@ -55,7 +55,7 @@ public class AuditServiceImp implements AuditService {
         audit.setAction(request.getAction());
         audit.setTargetObject(dbObject);
         audit.setUserEmail(request.getAuditorEmail());
-        audit.setUserType(request.getUserType());
+        audit.setRoleName(request.getRoleName());
         return audit;
     }
 }
