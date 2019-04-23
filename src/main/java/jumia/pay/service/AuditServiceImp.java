@@ -1,9 +1,6 @@
 package jumia.pay.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import com.mongodb.util.JSON;
 import jumia.pay.dto.ActivityRequest;
 import jumia.pay.dto.AuditRequest;
@@ -49,7 +46,7 @@ public class AuditServiceImp implements AuditService {
     public Page<Audit> getUserLog(ActivityRequest request, Pageable pageable) {
         if (request == null)return null;
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-        auditRepository.findActivitieBetween(request.getStartDate(),request.getEndDate(),pageable);
+        auditRepository.findUserActivitieBetween(request.getEmail(),request.getStartDate(),request.getEndDate(),pageable);
         return null;
     }
 
@@ -58,9 +55,9 @@ public class AuditServiceImp implements AuditService {
         return null;
     }
 
-    private void save(Audit audit)
+    public Audit save(Audit audit)
     {
-        auditRepository.save(audit);
+        return auditRepository.save(audit);
     }
 
     /**
@@ -87,17 +84,5 @@ public class AuditServiceImp implements AuditService {
         audit.setUserEmail(request.getAuditorEmail());
         audit.setRoleName(request.getRoleName());
         return audit;
-    }
-    public void trying(String username, Date startDate, Date endDate)
-    {
-//        DBCollection coll = db.getCollection("AuditService");
-        BasicDBObject query = new BasicDBObject("username",username);
-        query.append("createdDate",new BasicDBObject("$lt",startDate));
-        query.append("createdDate",new BasicDBObject("$gt",startDate));
-
-//        DBCursor cursor = coll.find(query);
-
-
-
     }
 }

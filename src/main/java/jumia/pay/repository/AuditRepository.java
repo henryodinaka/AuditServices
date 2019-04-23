@@ -12,4 +12,7 @@ import java.util.Date;
 public interface AuditRepository extends MongoRepository<Audit,ObjectId> {
     @Query("{'createdDate': {$gte: ?0, $lte:?1 }}")
     Page<Audit> findActivitieBetween(Date startDate, Date endDate, Pageable pageable);
+
+    @Query("{'username' : ?0, 'createdDate': {$gte: ?1, $lte:?2 }}")
+    Page<Audit> findUserActivitieBetween(String username,Date startDate, Date endDate, Pageable pageable);
 }

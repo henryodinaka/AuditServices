@@ -10,4 +10,5 @@ import java.util.Date;
 public interface AuditService {
     Page<Audit> getUserLog(ActivityRequest request, Pageable pageable);
     Page<Audit> getAllLog(ActivityRequest request,Pageable pageable);
+    Audit save(Audit audit);
 }

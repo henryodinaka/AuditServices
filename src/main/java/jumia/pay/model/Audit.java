@@ -5,7 +5,9 @@ import com.mongodb.DBObject;
 import jumia.pay.enums.Actions;
 import jumia.pay.enums.RoleName;
 import jumia.pay.util.JsonDateSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +24,8 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Document
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Audit {
     @Id
     private ObjectId id;
@@ -40,4 +44,10 @@ public class Audit {
 
     @Enumerated (EnumType.STRING)
     private RoleName roleName;
+
+    public Audit( Actions action, String userEmail, RoleName roleName) {
+        this.action = action;
+        this.userEmail = userEmail;
+        this.roleName = roleName;
+    }
 }
