@@ -33,7 +33,7 @@ public class Audit {
     @Enumerated(EnumType.STRING)
     private Actions action;
 
-    private DBObject targetObject;
+    private String targetObject;
 
     @CreatedDate
     @JsonSerialize(using = JsonDateSerializer.class)

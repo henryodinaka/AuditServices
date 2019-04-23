@@ -1,6 +1,6 @@
 package jumia.pay.service;
 
-import com.mongodb.*;
+import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import jumia.pay.dto.ActivityRequest;
 import jumia.pay.dto.AuditRequest;
@@ -12,11 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 @Service
 public class AuditServiceImp implements AuditService {
     @Autowired
@@ -27,29 +22,30 @@ public class AuditServiceImp implements AuditService {
      * @param request
      */
     public void logActivity(AuditRequest request) {
-        Audit audit = null;
-        if (request ==null) return;
-        String json = request.getJson();
-        DBObject dbObject= null;
-        if (json == null) return;
-
-        dbObject= jsonToDBObject(json);
-
-        if (dbObject == null) return;
-
-        audit = buildAuditObj(request,dbObject);
+        Audit audit = buildAuditObj(request);
 
         if (audit != null)
             save(audit);
     }
 
+    /**
+     * Get user logs
+     * @param request
+     * @param pageable
+     * @return
+     */
     public Page<Audit> getUserLog(ActivityRequest request, Pageable pageable) {
-        if (request == null)return null;
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+        if (request == null)return null; ;
         auditRepository.findUserActivitieBetween(request.getEmail(),request.getStartDate(),request.getEndDate(),pageable);
         return null;
     }
 
+    /**
+     * Get all logs
+     * @param request
+     * @param pageable
+     * @return
+     */
     public Page<Audit> getAllLog(ActivityRequest request,Pageable pageable) {
         auditRepository.findActivitieBetween(request.getStartDate(),request.getEndDate(),pageable);
         return null;
@@ -74,13 +70,12 @@ public class AuditServiceImp implements AuditService {
     /**
      * Generate audit object to be saved
      * @param request
-     * @param dbObject
      * @return
      */
-    private Audit buildAuditObj(AuditRequest request, DBObject dbObject){
+    private Audit buildAuditObj(AuditRequest request){
         Audit audit = new Audit();
         audit.setAction(request.getAction());
-        audit.setTargetObject(dbObject);
+        audit.setTargetObject(request.getJson());
         audit.setUserEmail(request.getAuditorEmail());
         audit.setRoleName(request.getRoleName());
         return audit;
