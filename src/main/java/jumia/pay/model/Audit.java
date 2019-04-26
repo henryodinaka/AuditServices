@@ -22,7 +22,7 @@ import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-@Document
+@Document(collection = "user_log")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

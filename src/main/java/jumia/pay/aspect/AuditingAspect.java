@@ -8,8 +8,10 @@ import jumia.pay.interfaces.Auditable;
 import jumia.pay.service.AuditServiceImp;
 import jumia.pay.util.JsonBuilder;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,16 @@ import java.util.Collection;
 public class AuditingAspect {
      @Autowired
      private AuditServiceImp auditServiceImp;
+
+//     @Pointcut(value = "@annotation(auditable)")
+//     public void pointCut(Auditable auditable){
+//         //This cuts all the points where methods are annotated with @Auditable
+//     }
+//
+//     @After("args(email)")
+//     public void logUserEmail(String email){
+//         //This method makes available the method argument
+//     }
 
     /**
      * This advice is ran after a method annotated with @auditable has returned

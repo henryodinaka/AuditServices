@@ -70,18 +70,18 @@ public class ProductServiceImpl implements ProductService{
 
     static {
         Product table = new Product(1L,"Office Table",new BigDecimal(5000),true);
-        products.put(table.getId(),table);
         Product chair = new Product(2L,"Office Chair",new BigDecimal(2000),true);
-        products.put(chair.getId(),chair);
         Product galaxyS4  = new Product(3L,"Samsung galaxy S4",new BigDecimal(50000),true);
-        products.put(galaxyS4.getId(),galaxyS4);
         Product cup = new Product(4L,"Tea Cup",new BigDecimal(300),true);
-        products.put(cup.getId(),cup);
         Product pot = new Product(5L,"Italian Pot",new BigDecimal(10000),true);
-        products.put(pot.getId(),pot);
         Product pen = new Product(6L,"Blue ink",new BigDecimal(100),true);
-        products.put(pen.getId(),pen);
         Product bag = new Product(7L,"Apple Laptop bag",new BigDecimal(6000),true);
+        products.put(table.getId(),table);
+        products.put(chair.getId(),chair);
+        products.put(galaxyS4.getId(),galaxyS4);
+        products.put(cup.getId(),cup);
+        products.put(pot.getId(),pot);
+        products.put(pen.getId(),pen);
         products.put(bag.getId(),bag);
     }
 }

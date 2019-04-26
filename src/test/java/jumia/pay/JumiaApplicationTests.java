@@ -26,6 +26,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -89,7 +91,7 @@ public class JumiaApplicationTests {
         Audit savedAudit2 = auditService.save(audit2);
         Audit savedAudit3 = auditService.save(audit3);
 
-        Page<Audit> userLog = auditService.getUserLog(new ActivityRequest(), new PageRequest(0, 5));
+        List<Audit> userLog = auditService.getLogs();
         assertTrue("User log retrieved",!userLog.isEmpty());
 
     }
@@ -102,7 +104,7 @@ public class JumiaApplicationTests {
         Audit savedAudit2 = auditService.save(audit2);
         Audit savedAudit3 = auditService.save(audit3);
 
-        Page<Audit> userLog = auditService.getUserLog(new ActivityRequest(), new PageRequest(0, 5));
+        List<Audit> userLog = auditService.getLogs();
         assertTrue("User log retrieved",!userLog.isEmpty());
 
     }

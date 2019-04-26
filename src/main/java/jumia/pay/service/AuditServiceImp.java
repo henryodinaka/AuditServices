@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuditServiceImp implements AuditService {
     @Autowired
@@ -37,6 +39,12 @@ public class AuditServiceImp implements AuditService {
     public Page<Audit> getUserLog(ActivityRequest request, Pageable pageable) {
         if (request == null)return null; ;
         auditRepository.findUserActivitieBetween(request.getEmail(),request.getStartDate(),request.getEndDate(),pageable);
+        return null;
+    }
+
+    public List<Audit> getLogs() {
+
+        auditRepository.findAll();
         return null;
     }
 
